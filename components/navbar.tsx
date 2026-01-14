@@ -6,9 +6,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import WalletButton from '@/components/walletButton'
 import { HiMenu, HiX } from 'react-icons/hi'
+import { useBlockchain } from "../blockchain/blockchainContext";
+
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false) 
 
   return (
     <nav className="bg-transparent px-4 sm:px-6 md:px-8 py-4 md:py-6">

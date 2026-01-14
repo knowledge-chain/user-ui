@@ -35,12 +35,14 @@
 
 // app/layout.tsx
 
-'use client'
+// 'use client'
 
 import './globals.css'
 import { WagmiProvider } from 'wagmi'
 import { wagmiConfig } from '@/lib/wagmi'
 import Navbar from '@/components/navbar'
+
+import ToastProvider from '@/components/toastProvider';
 
 export default function RootLayout({
   children,
@@ -57,6 +59,7 @@ export default function RootLayout({
           {/* Page Content */}
           {children}
         {/* </WagmiProvider> */}
+        {/* <ToastProvider /> */}
       </body>
     </html>
   )

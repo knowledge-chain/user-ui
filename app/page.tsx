@@ -1,13 +1,14 @@
-// app/page.tsx
-
 'use client'
 
 
 import Navbar from '@/components/navbar'
 import Link from 'next/link'
+import { BlockchainProvider } from '../blockchain/blockchainContext';
+import Footer from "@/components/footer";
 
 export default function HomePage() {
-  return (
+  return (<>
+  <BlockchainProvider>
     <main className="min-h-screen bg-gradient-to-br from-purple-700 via-indigo-700 to-blue-700 text-white">
       {/* Navbar */}
       <Navbar />
@@ -74,10 +75,10 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black/30 py-6 text-center text-sm text-gray-200">
-        © {new Date().getFullYear()} Knowledge Chain. All rights reserved.
-      </footer>
+
+      <Footer/>
     </main>
+    </BlockchainProvider>
+    </>
   )
 }
