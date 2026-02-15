@@ -41,3 +41,7 @@ export const initNairaPayment = (body: IInitNairaPayment) => {
 export const verifyNairaPayment = (body: IVerifyNairaPayment) => {
     return axiosInstance().post("/user/verify-payment", body);
 }
+
+export const uploadImage = (body: any) => {
+    return axiosInstance().post("/user/upload-image", body);
+}

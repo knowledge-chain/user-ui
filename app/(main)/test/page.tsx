@@ -5,7 +5,7 @@ import axios from 'axios'
 import Navbar from '@/components/navbar'
 import Test from "./test";
 import Footer from "@/components/footer";
-import { BlockchainProvider } from '../../blockchain/blockchainContext';
+import { BlockchainProvider } from '../../../blockchain/blockchainContext';
 
 export default function TestPage() {
   return (<>

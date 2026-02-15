@@ -2,21 +2,14 @@
 
 
 import Navbar from '@/components/navbar'
-import Mint from "./mint";
+import VerifyPayment from "./verify";
 import Footer from "@/components/footer";
-import { BlockchainProvider } from '../../blockchain/blockchainContext';
 
-export default function MintPage() {
+export default function VerifyPaymentPage() {
   return (<>
-  <BlockchainProvider>
     <main className="min-h-screen bg-gradient-to-br from-purple-700 via-indigo-700 to-blue-700 text-white">
-      <Navbar />
-
-      <Mint />
-
+      <VerifyPayment />
       <Footer />
     </main>
-
-    </BlockchainProvider>
   </>)
 }

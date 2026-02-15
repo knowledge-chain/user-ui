@@ -25,4 +25,5 @@ export interface IInitNairaPayment {
 export interface IVerifyNairaPayment {
     walletAddress: string;
     reference: string;
+    img: string;
 }

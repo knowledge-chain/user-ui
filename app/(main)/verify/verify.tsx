@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useBlockchain } from "../../blockchain/blockchainContext";
+import { useBlockchain } from "../../../blockchain/blockchainContext";
 import { createProfile, verifyEmail } from '@/api/user';
 
 export default function Verify() {

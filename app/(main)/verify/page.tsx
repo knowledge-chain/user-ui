@@ -2,7 +2,7 @@
 
 import Navbar from '@/components/navbar'
 import Verify from "./verify";
-import { BlockchainProvider } from '../../blockchain/blockchainContext';
+import { BlockchainProvider } from '../../../blockchain/blockchainContext';
 
 export default function VerifyPage() {
   

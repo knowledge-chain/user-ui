@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import axios from 'axios'
 import { verifyNairaPayment } from '@/api/user'
 
 export default function VerifyPayment() {
@@ -13,13 +12,13 @@ export default function VerifyPayment() {
   const [walletAddress, setWalletAddress] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [img, setImg] = useState('')
 
   // 1️⃣ Get reference + wallet from URL / localStorage
   useEffect(() => {
     const refFromUrl = searchParams.get('reference')
     const wallet = searchParams.get('wallet')
-    // const refFromStorage = localStorage.getItem('paystack_reference')
-    // const walletFromStorage = localStorage.getItem('walletAddress')
+    const image = searchParams.get('img')
 
     if (refFromUrl) {
       setReference(refFromUrl)
@@ -27,6 +26,10 @@ export default function VerifyPayment() {
 
     if (wallet) {
       setWalletAddress(wallet)
+    }
+
+    if (image) {
+      setImg(image)
     }
   }, [searchParams])
 
@@ -46,24 +49,7 @@ export default function VerifyPayment() {
     setMessage('')
 
     try {
-    //   await axios.post(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/payment/verify`,
-    //     {
-    //       reference,
-    //       walletAddress,
-    //     }
-    //   )
-
-    //   setMessage('✅ Payment verified successfully')
-
-    //   // Clear stored reference
-    //   localStorage.removeItem('paystack_reference')
-
-    //   setTimeout(() => {
-    //     router.push('/mint-success')
-    //   }, 1500)
-
-        verifyNairaPayment({walletAddress: walletAddress, reference: reference }).then((res) => {
+        verifyNairaPayment({walletAddress: walletAddress, reference: reference, img: img}).then((res) => {
             console.log("ress", res)
             setMessage('✅  Payment verified successfully')
             setTimeout(() => {

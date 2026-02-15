@@ -1,4 +1,4 @@
-export const nftContractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+export const nftContractAddress = "0x9a676e781a523b5d0c0e43731313a708cb607508"
 export const usdcContractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
 
 
