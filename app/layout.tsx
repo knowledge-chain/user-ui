@@ -14,7 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gradient-to-br from-purple-700 via-indigo-700 to-blue-700 text-white">
+      {/* <body className="min-h-screen bg-gradient-to-br from-purple-700 via-indigo-700 to-blue-700 text-white"> */}
+      <body className="min-h-screen bg-[#001740] text-white">
         {/* <WagmiProvider config={wagmiConfig}> */}
 
           {children}

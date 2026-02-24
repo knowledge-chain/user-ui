@@ -1,60 +1,110 @@
-// components/Navbar.tsx
-
 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
 import WalletButton from '@/components/walletButton'
 import { HiMenu, HiX } from 'react-icons/hi'
-import { useBlockchain } from "../blockchain/blockchainContext";
-
+import Image from "next/image"
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false) 
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <nav className="bg-transparent px-4 sm:px-6 md:px-8 py-4 md:py-6">
+    <nav className="bg-[#001740] px-4 sm:px-6 md:px-8 py-4 md:py-6 border-b border-[#002766]">
       <div className="flex items-center justify-between">
-        {/* Logo linking to Home */}
-        <Link href="/" className="text-xl sm:text-2xl font-bold tracking-wide">
-          Knowledge Chain
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo.svg"
+            alt="Knowledge Chain Logo"
+            width={160}
+            height={40}
+            className="object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6">
-          <Link href="/about" className="hover:underline text-sm sm:text-base">About</Link>
-          <Link href="/contact" className="hover:underline text-sm sm:text-base">Contact</Link>
-          <Link href="/verify" className="hover:underline text-sm sm:text-base">Profile</Link>
+        <div className="hidden md:flex items-center gap-8 text-gray-300">
+
+          <Link 
+            href="/about" 
+            className="hover:text-[#fbc816] transition"
+          >
+            About
+          </Link>
+
+          <Link 
+            href="/contact" 
+            className="hover:text-[#fbc816] transition"
+          >
+            Contact
+          </Link>
+
+          <Link 
+            href="/verify" 
+            className="hover:text-[#fbc816] transition"
+          >
+            Profile
+          </Link>
+
           <WalletButton />
+
           <Link
             href="/mint"
-            className="bg-white text-indigo-700 px-4 py-2 rounded-xl font-semibold shadow-lg hover:bg-gray-100 text-sm sm:text-base"
+            className="bg-[#fbc816] text-[#001740] px-5 py-2 rounded-xl font-semibold shadow-lg hover:scale-105 transition"
           >
             Mint NFT
           </Link>
+
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="md:hidden text-white">
           <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
+            {isOpen 
+              ? <HiX className="w-7 h-7" /> 
+              : <HiMenu className="w-7 h-7" />
+            }
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="flex flex-col mt-4 md:hidden gap-4">
-          <Link href="/about" className="hover:underline">About</Link>
-          <Link href="/contact" className="hover:underline">Contact</Link>
-          <Link href="/verify" className="hover:underline">Profile</Link>
+        <div className="flex flex-col mt-6 md:hidden gap-6 text-gray-300">
+
+          <Link 
+            href="/about" 
+            className="hover:text-[#fbc816] transition"
+          >
+            About
+          </Link>
+
+          <Link 
+            href="/contact" 
+            className="hover:text-[#fbc816] transition"
+          >
+            Contact
+          </Link>
+
+          <Link 
+            href="/verify" 
+            className="hover:text-[#fbc816] transition"
+          >
+            Profile
+          </Link>
+
           <WalletButton />
+
           <Link
             href="/mint"
-            className="bg-white text-indigo-700 px-4 py-2 rounded-xl font-semibold shadow-lg hover:bg-gray-100"
+            className="bg-[#fbc816] text-[#001740] px-5 py-2 rounded-xl font-semibold text-center shadow-lg hover:scale-105 transition"
           >
             Mint NFT
           </Link>
+
         </div>
       )}
     </nav>
