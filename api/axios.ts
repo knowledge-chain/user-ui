@@ -1,6 +1,6 @@
 import axios from "axios"
-export const baseURL = `http://localhost:8000`
-// export const baseURL = `https://api.bmdao.xyz/api`
+// export const baseURL = `http://localhost:8000`
+export const baseURL = `https://server-841i.onrender.com`
 
 export const axiosInstance = () => {
     const token = typeof window !== "undefined" && localStorage.getItem("knowledge-token");
@@ -11,3 +11,4 @@ export const axiosInstance = () => {
         }
     })
 };
+

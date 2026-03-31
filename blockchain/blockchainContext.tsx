@@ -41,44 +41,44 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" }); //goooooo
 
-        // const polygonChainIdHex = "0x89"; // 137
-        const HARDHAT_CHAIN_ID = '0x7A69' // 31337 in hex
+        const polygonChainIdHex = "0x89"; // 137
+        // const HARDHAT_CHAIN_ID = '0x7A69' // 31337 in hex
 
         try {
           await window.ethereum.request({
             method: "wallet_switchEthereumChain",
-            params: [{ chainId: HARDHAT_CHAIN_ID }],
+            params: [{ chainId: polygonChainIdHex }],
           });
         } catch (switchError: any) {
           // 2️⃣ If Polygon is not added, add it
           if (switchError.code === 4902) {
             await window.ethereum.request({
               method: "wallet_addEthereumChain",
-              // params: [
-              //   {
-              //     chainId: polygonChainIdHex,
-              //     chainName: "Polygon Mainnet",
-              //     rpcUrls: ["https://polygon-rpc.com"],
-              //     nativeCurrency: {
-              //       name: "MATIC",
-              //       symbol: "MATIC",
-              //       decimals: 18,
-              //     },
-              //     blockExplorerUrls: ["https://polygonscan.com"],
-              //   },
-              // ],
               params: [
                 {
-                  chainId: HARDHAT_CHAIN_ID,
-                  chainName: 'Hardhat Local',
-                  rpcUrls: ['http://127.0.0.1:8545'],
+                  chainId: polygonChainIdHex,
+                  chainName: "Polygon Mainnet",
+                  rpcUrls: ["https://polygon-rpc.com"],
                   nativeCurrency: {
-                    name: 'ETH',
-                    symbol: 'ETH',
+                    name: "MATIC",
+                    symbol: "MATIC",
                     decimals: 18,
                   },
+                  blockExplorerUrls: ["https://polygonscan.com"],
                 },
               ],
+              // params: [
+              //   {
+              //     chainId: HARDHAT_CHAIN_ID,
+              //     chainName: 'Hardhat Local',
+              //     rpcUrls: ['http://127.0.0.1:8545'],
+              //     nativeCurrency: {
+              //       name: 'ETH',
+              //       symbol: 'ETH',
+              //       decimals: 18,
+              //     },
+              //   },
+              // ],
             });
           } else {
             alert("Unable to connect your wallet")

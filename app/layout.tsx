@@ -5,7 +5,13 @@ import { WagmiProvider } from 'wagmi'
 import { wagmiConfig } from '@/lib/wagmi'
 
 import ToastProvider from '@/components/toastProvider';
-import { BlockchainProvider } from '@/blockchain/blockchainContext'
+
+// ✅ ADD METADATA HERE (outside the component)
+export const metadata = {
+  title: "The knwoledge Chain in Nigeria",
+  description: "Knowledge on Web3, crypto and blockchain using Knowledge chain.",
+  keywords: ["crypto", "web3", "blockchain", "Nigeria", "Knowlege", "education"],
+};
 
 export default function RootLayout({
   children,
