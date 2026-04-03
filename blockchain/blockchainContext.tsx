@@ -220,9 +220,19 @@ export const BlockchainProvider: React.FC<{ children: React.ReactNode }> = ({ ch
               projectId: "6b55b46e9468f5017cfa846fea340211", // 🔥 replace this
               chains: [137], // Polygon
               showQrModal: true,
+
+              metadata: {
+                name: "TKC",
+                description: "The knowledge chain",
+                url: "https://www.theknowledgechain.com", // ⚠️ MUST match your app
+                icons: ["https://ipfs.io/ipfs/bafybeihodi2i7cg5fkgzx56m3arwibpleki56wxxxgxotrjyausgnrwprm"], // can be any valid image URL
+              },
             });
 
             await wcProvider.connect();
+            if (wcProvider.session) {
+              console.log("WalletConnect session established");
+            }
             injectedProvider = wcProvider;
 
           } catch (err) {
