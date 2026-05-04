@@ -5,7 +5,7 @@ import { useBlockchain } from "../../../blockchain/blockchainContext";
 import { useEffect, useState } from 'react'
 import { approveContract, mintNft } from "@/blockchain/mint";
 import { nftContractAddress } from "../../../blockchain/constant";
-import { formatEther } from "ethers";
+import { formatEther, formatUnits } from "ethers";
 
 let USDC_AMOUNT = 2
 const NAIRA_AMOUNT = '15000'
@@ -54,13 +54,6 @@ export default function MintPage() {
 
   const handlePayUSDC = async () => {
     try {
-
-      // const fileUrl = await uploadFileToServer()
-      // if (!fileUrl) {
-      //   alert("Unable to upload file")
-      //   return
-      // }
-
       const nftTokenBalance = await nftTokenContractFunction(
         nftContractAddress,
         "balanceOf",
@@ -78,14 +71,23 @@ export default function MintPage() {
         []
       )
 
-      const formattedMintPrice = parseFloat(formatEther(mintPrice.toString()))
+      // const formattedMintPrice = parseFloat(formatEther(mintPrice.toString()))
 
-      if (formattedMintPrice < 1) {
-        alert("Mint price have not be set")
-        return
+      // if (formattedMintPrice < 1) {
+      //   alert("Mint price have not be set")
+      //   return
+      // }
+
+      const formattedMintPrice = formatUnits(mintPrice.toString(), 6);
+      console.log("Mint price (USDC):", formattedMintPrice);
+
+      if (mintPrice.toString() === "0") {
+        alert("Mint price has not been set");
+        return;
       }
 
-      const approve = await approveContract(formattedMintPrice, signer)
+      // const approve = await approveContract(formattedMintPrice, signer)
+      const approve = await approveContract(mintPrice, signer)
 
       if (!approve.status) {
         alert(approve.result)

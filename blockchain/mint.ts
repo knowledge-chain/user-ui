@@ -3,15 +3,18 @@ import { approve, mint } from "./contractFunction.instance";
 
 
 export const approveContract = async(
-    amount: number,
+    // amount: number,
+    amount: bigint,
     signer: any
 ) =>{
     try {
         if (!amount) return{status: false, result: "amount is required"}
 
-        const amountWei = parseUnits(amount.toString(), 18); // 10 tokens with 18 decimals
+        // const amountWei = parseUnits(amount.toString(), 18); // 10 tokens with 18 decimals
         
-        const tx = await approve(amountWei, signer)
+        // const tx = await approve(amountWei, signer)
+
+        const tx = await approve(amount, signer)
 
         if (!tx.status) {
             return{status: false, result: tx.message}
