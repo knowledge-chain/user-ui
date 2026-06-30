@@ -223,7 +223,8 @@ export default function Verify() {
   const [isError, setIsError] = useState(false)
 
 
-  const { walletAddress, } = useBlockchain(); 
+  // const { walletAddress, } = useBlockchain(); 
+  const walletAddress = localStorage.getItem('walletAddress')
 
   const handleEmailSubmit = async () => {
     try {
@@ -244,8 +245,14 @@ export default function Verify() {
         alert(res.data.message)
         setStep('otp')
       }).catch((e) => {
-        alert("unable to create profile")
         console.log("error", e)
+
+        const message =
+          e?.response?.data?.message ||
+          e?.response?.data ||
+          'unable to create profile ❌'
+
+        alert(message)
         return
       })
     } catch (err) {
@@ -273,8 +280,12 @@ export default function Verify() {
         alert("Email verified successfully")
         setStep('otp')
       }).catch((e) => {
-        alert("unable to verify email")
-        console.log("error", e)
+         const message =
+          e?.response?.data?.message ||
+          e?.response?.data ||
+          'unable to verify email ❌'
+
+        alert(message)
         return
       })
     } catch (err) {

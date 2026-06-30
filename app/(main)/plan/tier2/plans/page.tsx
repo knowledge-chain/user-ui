@@ -2,21 +2,17 @@
 
 
 import Navbar from '@/components/navbar'
-import Mint from "./mint";
+import  Tier2Plans from "./plans";
 import Footer from "@/components/footer";
-import { BlockchainProvider } from '../../../blockchain/blockchainContext';
 
-export default function MintPage() {
+export default function Tier2PlansPage() {
   return (<>
-  {/* <BlockchainProvider> */}
     <main className="min-h-screen bg-gradient-to-br from-purple-700 via-indigo-700 to-blue-700 text-white">
       <Navbar />
 
-      <Mint />
+      < Tier2Plans />
 
       <Footer />
     </main>
-
-    {/* </BlockchainProvider> */}
   </>)
 }

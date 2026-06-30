@@ -222,6 +222,37 @@ export const nftTokenAbi = [
         {
           "indexed": true,
           "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "tier",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "NFTMinted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
           "name": "previousOwner",
           "type": "address"
         },
@@ -233,6 +264,25 @@ export const nftTokenAbi = [
         }
       ],
       "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "tier",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newPrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "TierPriceUpdated",
       "type": "event"
     },
     {
@@ -358,6 +408,54 @@ export const nftTokenAbi = [
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getNFTData",
+      "outputs": [
+        {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "tier",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "mintedAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "uri",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserHighestTier",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "user",
           "type": "address"
@@ -367,13 +465,61 @@ export const nftTokenAbi = [
       "outputs": [
         {
           "internalType": "uint256[]",
-          "name": "",
+          "name": "ids",
           "type": "uint256[]"
         },
         {
           "internalType": "string[]",
-          "name": "",
+          "name": "uris",
           "type": "string[]"
+        },
+        {
+          "internalType": "enum IMTKCNFT.Tier[]",
+          "name": "tiers",
+          "type": "uint8[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "requiredTier",
+          "type": "uint8"
+        }
+      ],
+      "name": "hasAccess",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "highestTierOwned",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
         }
       ],
       "stateMutability": "view",
@@ -406,6 +552,11 @@ export const nftTokenAbi = [
     {
       "inputs": [
         {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "_tier",
+          "type": "uint8"
+        },
+        {
           "internalType": "string",
           "name": "ipfsLink",
           "type": "string"
@@ -424,6 +575,11 @@ export const nftTokenAbi = [
           "type": "address"
         },
         {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "_tier",
+          "type": "uint8"
+        },
+        {
           "internalType": "string",
           "name": "ipfsLink",
           "type": "string"
@@ -432,19 +588,6 @@ export const nftTokenAbi = [
       "name": "mintOption",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "mintPrice",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -467,6 +610,30 @@ export const nftTokenAbi = [
         {
           "internalType": "uint256",
           "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "nftData",
+      "outputs": [
+        {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "tier",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "mintedAt",
           "type": "uint256"
         }
       ],
@@ -597,12 +764,17 @@ export const nftTokenAbi = [
     {
       "inputs": [
         {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "_tier",
+          "type": "uint8"
+        },
+        {
           "internalType": "uint256",
           "name": "_price",
           "type": "uint256"
         }
       ],
-      "name": "setMintPrice",
+      "name": "setTierPrice",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -636,6 +808,19 @@ export const nftTokenAbi = [
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_usdc",
+          "type": "address"
+        }
+      ],
+      "name": "setUSDCAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bytes4",
           "name": "interfaceId",
           "type": "bytes4"
@@ -660,6 +845,25 @@ export const nftTokenAbi = [
           "internalType": "string",
           "name": "",
           "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum IMTKCNFT.Tier",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "name": "tierPrices",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",

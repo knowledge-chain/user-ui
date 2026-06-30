@@ -41,12 +41,12 @@ export const approve = async (amount: any, signer: any) => {
     }
 };
 
-export const mint = async (signer: any, img: any) => {
+export const mint = async (signer: any, tier: any, img: any) => {
     const validContractAddress = getAddress(nftContractAddress);
     const contract = new ethers.Contract(validContractAddress, nftTokenAbi, signer);
   
     try {
-        const tx = await contract.mint(img);
+        const tx = await contract.mint(tier, img);
   
         console.log('tx', tx)
   

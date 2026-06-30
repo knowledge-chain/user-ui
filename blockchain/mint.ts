@@ -27,9 +27,9 @@ export const approveContract = async(
 }
 
 
-export const mintNft = async(signer: any, img: any) =>{
+export const mintNft = async(signer: any, tier: any, img: any) =>{
     try {      
-        const tx = await mint(signer, img)
+        const tx = await mint(signer, tier, img)
 
         if (!tx.status) {
             return{status: false, result: tx}

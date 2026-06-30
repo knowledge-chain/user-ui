@@ -55,10 +55,16 @@ export default function VerifyPayment() {
             setTimeout(() => {
                 router.push('/mint')
             }, 1500)
-        }).catch((e) => {
-            alert("unable to create profile")
-            console.log("error", e)
-            return
+        }).catch((err) => {
+          console.log(err)
+
+          const message =
+            err?.response?.data?.message ||
+            err?.response?.data ||
+            '❌ Payment verification failed'
+
+          alert(message)
+          return
         })
     } catch (err: any) {
       setMessage(

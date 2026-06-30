@@ -46,6 +46,6 @@ export const uploadImage = (body: any) => {
     return axiosInstance().post("/user/upload-image", body);
 }
 
-export const getAmount = () => {
-    return axiosInstance().get(`/user/amount`);
+export const getAmount = (tier: string) => {
+    return axiosInstance().get(`/user/amount/${tier}`);
 }

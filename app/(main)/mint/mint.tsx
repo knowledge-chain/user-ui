@@ -5,80 +5,58 @@ import { useBlockchain } from "../../../blockchain/blockchainContext";
 import { useEffect, useState } from 'react'
 import { approveContract, mintNft } from "@/blockchain/mint";
 import { nftContractAddress } from "../../../blockchain/constant";
-import { formatEther, formatUnits } from "ethers";
+import { ethers, formatEther, formatUnits } from "ethers";
 
 let USDC_AMOUNT = 2
 const NAIRA_AMOUNT = '15000'
 
+const TIER = {
+  TIER1: "https://ipfs.io/ipfs/bafybeihodi2i7cg5fkgzx56m3arwibpleki56wxxxgxotrjyausgnrwprm",
+  TIER2: "https://ipfs.io/ipfs/QmP7FzwC3foHPVSDt47ufT1D2vEcqgHj9FhMzmzCcVcDex",
+  TIER3: 3,
+  TIER4: 4,
+};
+
 export default function MintPage() {
 
   const [baseUrl, setBaseUrl] = useState('')
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
 
   // ✅ Added tier state
   const [selectedTier, setSelectedTier] = useState('')
 
-  const { walletAddress, signer, nftTokenContractFunction } = useBlockchain();
+  const { signer, nftTokenContractFunction } = useBlockchain();
 
-  const uploadFileToServer = async (): Promise<string | null> => {
-    try {
-      if (!selectedFile) {
-        alert("Please select a file first")
-        return null
-      }
+  const walletAddress = localStorage.getItem('walletAddress')
+  const userType = localStorage.getItem('userType')
 
-      if (!selectedTier) {
-        alert("Please select a tier")
-        return null
-      }
-
-      setIsUploading(true)
-
-      const formData = new FormData()
-      formData.append("media", selectedFile)
-
-      const res = await uploadImage(formData)
-
-      setUploadedUrl(res.data.url)
-      return res.data.url
-
-    } catch (error) {
-      alert("Upload failed")
-      return null
-    } finally {
-      setIsUploading(false)
-    }
-  }
 
   const handlePayUSDC = async () => {
     try {
-      const nftTokenBalance = await nftTokenContractFunction(
+      if (userType == 'web2') {
+        alert("Please use other option to mint NFT")
+        return
+      }
+      
+      const checkTokenAccess =  await nftTokenContractFunction(
         nftContractAddress,
-        "balanceOf",
-        [walletAddress]
+        "hasAccess",
+        [walletAddress, parseInt(selectedTier)]
       )
 
-      // if (parseFloat(nftTokenBalance.toString()) >= 1) {
-      //   alert("You already made payment")
-      //   return
+      // if (checkTokenAccess) {
+      //    alert("You already mint this NFT")
+      //    return
       // }
 
       const mintPrice = await nftTokenContractFunction(
         nftContractAddress,
-        "mintPrice",
-        []
+        "tierPrices",
+        [parseInt(selectedTier)]
       )
 
-      // const formattedMintPrice = parseFloat(formatEther(mintPrice.toString()))
+      const formattedMintPrice = parseFloat(formatEther(mintPrice.toString()))
 
-      // if (formattedMintPrice < 1) {
-      //   alert("Mint price have not be set")
-      //   return
-      // }
-
-      const formattedMintPrice = formatUnits(mintPrice.toString(), 6);
       console.log("Mint price (USDC):", formattedMintPrice);
 
       if (mintPrice.toString() === "0") {
@@ -86,7 +64,6 @@ export default function MintPage() {
         return;
       }
 
-      // const approve = await approveContract(formattedMintPrice, signer)
       const approve = await approveContract(mintPrice, signer)
 
       if (!approve.status) {
@@ -94,7 +71,12 @@ export default function MintPage() {
         return
       }
 
-      const mint = await mintNft(signer, selectedTier)
+      let tierImg = TIER.TIER1
+      if (parseInt(selectedTier) == 2) {
+        tierImg = TIER.TIER2
+      }
+
+      const mint = await mintNft(signer, parseInt(selectedTier), tierImg)
 
       if (!mint.status) {
         alert(mint.result)
@@ -110,31 +92,21 @@ export default function MintPage() {
 
   const handlePayNaira = async () => {
     try {
-
-      // const fileUrl = await uploadFileToServer()
-      // if (!fileUrl) return
-
-      if (walletAddress == null) {
-        alert("Connect your wallet")
+      const wallet = localStorage.getItem('walletAddress')
+      if (!wallet) {
+        alert("Connect your wallet or login")
         return
       }
 
-      const nftTokenBalance = await nftTokenContractFunction(
-        nftContractAddress,
-        "balanceOf",
-        [walletAddress]
-      )
-
-      // if (parseFloat(nftTokenBalance.toString()) >= 1) {
-      //   alert("You already made payment")
-      //   return
-      // }
-
-      const callback = `${baseUrl}/verifynaira?wallet=${walletAddress}&img=${selectedTier}`
+      let callback = `${baseUrl}/verifynaira?wallet=${walletAddress}&img=${TIER.TIER1}`
+      if (parseInt(selectedTier) == 2) {
+        callback = `${baseUrl}/verifynaira?wallet=${walletAddress}&img=${TIER.TIER2}`
+      }
 
       initNairaPayment({
-        walletAddress: walletAddress,
+        walletAddress: wallet,
         callback: callback,
+        tier: parseInt(selectedTier)
       }).then((res) => {
 
         const paystackUrl = res.data.data.data.url
@@ -145,10 +117,17 @@ export default function MintPage() {
           return
         }
 
-        window.open(paystackUrl, '_blank')
+        window.location.href = paystackUrl
 
-      }).catch(() => {
-        alert("Unable to Initial Payment")
+      }).catch((err) => {
+        console.log(err)
+
+        const message =
+          err?.response?.data?.message ||
+          err?.response?.data ||
+          'Unable to Initial Payment ❌'
+
+        alert(message)
         return
       })
 
@@ -193,13 +172,13 @@ export default function MintPage() {
             <option value="" className="bg-[#001740] text-white">
               Select NFT Tier
             </option>
-            <option value="https://ipfs.io/ipfs/bafybeihodi2i7cg5fkgzx56m3arwibpleki56wxxxgxotrjyausgnrwprm" className="bg-[#001740] text-white">
+            <option value="1" className="bg-[#001740] text-white">
               Tier 1
             </option>
-            {/* <option value="tier2" className="bg-[#001740] text-white">
+            <option value="2" className="bg-[#001740] text-white">
               Tier 2
             </option>
-            <option value="tier3" className="bg-[#001740] text-white">
+            {/* <option value="tier3" className="bg-[#001740] text-white">
               Tier 3
             </option>
             <option value="tier4" className="bg-[#001740] text-white">
@@ -222,6 +201,7 @@ export default function MintPage() {
           <button
             onClick={handlePayNaira}
             // disabled={!selectedFile || !selectedTier || isUploading}
+            
             disabled={!selectedTier || isUploading}
             className="w-full bg-[#2417d3] text-[#fbc816] py-4 rounded-2xl font-bold shadow-xl hover:bg-[#1f14b0] hover:scale-105 transition disabled:opacity-50"
           >

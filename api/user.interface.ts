@@ -21,6 +21,7 @@ export interface ICheckEmail {
 export interface IInitNairaPayment {
     walletAddress: string;
     callback: string;
+    tier: number;
 }
 export interface IVerifyNairaPayment {
     walletAddress: string;

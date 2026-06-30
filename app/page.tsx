@@ -1,18 +1,15 @@
 'use client'
 
-import Navbar from '@/components/navbar'
+import  PublicNavbar from '@/components/publicNavbar'
 import Link from 'next/link'
-import { BlockchainProvider } from '../blockchain/blockchainContext'
 import Footer from "@/components/footer"
 
 export default function HomePage() {
   return (
     <>
-      <BlockchainProvider>
         <main className="min-h-screen bg-[#001740] text-white">
           
-          {/* Navbar */}
-          <Navbar />
+          < PublicNavbar />
 
           {/* Hero Section */}
           <section className="flex flex-col items-center justify-center text-center px-6 py-24">
@@ -29,7 +26,7 @@ export default function HomePage() {
               
               {/* Primary Button */}
               <Link
-                href="/mint"
+                href="/auth/signup"
                 className="bg-[#fbc816] text-[#001740] px-8 py-3 rounded-2xl font-bold shadow-xl hover:scale-105 hover:shadow-[0_0_20px_#fbc816] transition"
               >
                 Get Started
@@ -99,7 +96,6 @@ export default function HomePage() {
 
           <Footer />
         </main>
-      </BlockchainProvider>
     </>
   )
 }
