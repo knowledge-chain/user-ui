@@ -1,6 +1,6 @@
 import axios from "axios"
-export const baseURL = `http://localhost:9000`
-// export const baseURL = `https://server-841i.onrender.com`
+// export const baseURL = `http://localhost:9000`
+export const baseURL = `https://server-u9lt.onrender.com`
 
 
 export const axiosInstance = () => {
