@@ -97,7 +97,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
 
         {/* LOGO */}
-        <Link href="/" className="flex items-center">
+        <Link href="/courses/tier-two/courses" className="flex items-center">
           <Image src="/logo.svg" alt="logo" width={160} height={40} />
         </Link>
 
