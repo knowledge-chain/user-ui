@@ -44,10 +44,10 @@ export default function MintPage() {
         [walletAddress, parseInt(selectedTier)]
       )
 
-      // if (checkTokenAccess) {
-      //    alert("You already mint this NFT")
-      //    return
-      // }
+      if (checkTokenAccess) {
+         alert("You already mint this NFT")
+         return
+      }
 
       const mintPrice = await nftTokenContractFunction(
         nftContractAddress,
